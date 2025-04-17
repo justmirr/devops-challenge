@@ -1,4 +1,4 @@
-# VPC
+# VPC with public and private subnets for network environment
 module "vpc" {
   source = "terraform-aws-modules/vpc/aws"
 
@@ -16,6 +16,7 @@ module "vpc" {
   map_public_ip_on_launch = var.vpc_map_public_ip_on_launch
 }
 
+# ECS for deploying the containerized application
 resource "aws_ecs_cluster" "ecs_cluster" {
   name = var.ecs_cluster_name
 }
@@ -61,6 +62,7 @@ resource "aws_ecs_task_definition" "task_definition_simple_time_service" {
   ])
 }
 
+# ALB for distributing incoming traffic
 resource "aws_security_group" "security_group_allow_http" {
   name = var.security_group_allow_http_name
   vpc_id = module.vpc.vpc_id
